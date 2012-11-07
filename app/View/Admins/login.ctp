@@ -1,4 +1,4 @@
-<h1 class="frontpage-headline">Login</h1>
+<h1>Login</h1>
 <hr />
 
 <?php
