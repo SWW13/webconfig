@@ -1,6 +1,6 @@
 <div class="domains index">
 	<h2><?php echo __('Domains'); ?></h2>
-	<table cellpadding="0" cellspacing="0">
+	<table class="table table-bordered table-hover" cellpadding="0" cellspacing="0">
 	<tr>
 			<th><?php echo $this->Paginator->sort('id'); ?></th>
 			<th><?php echo $this->Paginator->sort('domain'); ?></th>

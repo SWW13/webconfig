@@ -15,22 +15,18 @@
         echo $this->fetch('css');
         echo $this->fetch('script');
         ?>
+        <style>body { padding-top: 60px; }</style>
     </head>
     <body>
-        <div id="container">
-            <?= $this->element('navigation'); ?>
-
-            <div id="content">
-                <?php echo $this->Session->flash(); ?>
-                <?php echo $this->fetch('content'); ?>
-            </div>
-
-            <div id="footer">
-            </div>
+        <?= $this->element('navigation'); ?>
+        
+        <div class="container">
+            <?php echo $this->Session->flash(); ?>
+            <?php echo $this->fetch('content'); ?>
         </div>
 
         <?php echo $this->element('sql_dump'); ?>
         <script src="http://code.jquery.com/jquery-latest.js"></script>
-        <script src="js/bootstrap.min.js"></script>
+        <?= $this->Html->script('bootstrap.min'); ?>
     </body>
 </html>
