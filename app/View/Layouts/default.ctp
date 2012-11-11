@@ -27,7 +27,7 @@
         </div>
 
         <?php echo $this->element('sql_dump'); ?>
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <?= $this->Html->script('jquery.min'); ?>
         <?= $this->Html->script('bootstrap.min'); ?>
     </body>
 </html>
