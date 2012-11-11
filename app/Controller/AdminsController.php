@@ -103,6 +103,29 @@ class AdminsController extends AppController
         }
     }
     
+    function settings()
+    {
+        $this->Admin->id = $this->Auth->user('id');
+        $admin = $this->Admin->read(null, $this->Auth->user('id'));
+        
+        // save data
+        if ($this->request->is('post') || $this->request->is('put'))
+        {
+            // update password only if chagned
+            if(!empty($this->request->data['Admin']['password']))
+                $this->request->data['Admin']['password'] = Security::hash($this->request->data['Admin']['password'], null, true);
+            else
+                unset($this->request->data['Admin']['password']);
+            
+            if ($this->Admin->save($this->request->data))
+                $this->Session->setFlash('The settings has been saved successfully.', 'flash_success');
+            else
+                $this->Session->setFlash('The settings could not be saved. Please, try again.', 'flash_fail');
+        }
+        else
+            $this->request->data = $admin;
+    }
+    
     function getPW($cleartext_pw)
     {
         exit(Security::hash($cleartext_pw, null, true));

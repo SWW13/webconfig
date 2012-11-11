@@ -9,7 +9,23 @@
             <a class="brand" href="<?= $this->Html->url('/') ?>">webconfig</a>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="active"><a href="<?= $this->Html->url('/domains') ?>">Domains</a></li>
+                    <li id="fat-menu" class="dropdown <?= $this->here == $this->Html->url('/domains') ? 'active' : ''; ?>">
+                        <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                            Domains
+                            <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                            <li><a href="<?= $this->Html->url('/domains') ?>"><i class="icon-list-alt"></i> overview</a></li>
+                            <li class="divider"></li>
+                            <? foreach($domains as $domain): ?>
+                                <li>
+                                    <a href="<?= $this->Html->url(array('controller' => 'domains', 'action' => 'view', $domain['Domain']['id'])) ?>">
+                                        <?= $domain['Domain']['domain'] ?>
+                                    </a>
+                                </li>
+                            <? endforeach; ?>
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <?php if(isset($admin)): ?>

@@ -4,7 +4,6 @@
 
 <?php
     echo $this->Form->create('Forwarding', array(
-	'action' => 'edit',
 	'inputDefaults' => array(
 	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
@@ -26,8 +25,8 @@
         <div class="controls">
             <div class="input-append">
                 <div class="control-group required">
-                    <input id="ForwardingLocal" name="data[Forwarding][local]" class="input-xlarge" value="<?= $forwarding['Forwarding']['local'] ?>" maxlength="64" type="text">
-                    <span class="add-on">@<?= $forwarding['Domain']['domain'] ?></span>            
+                    <?= $this->Form->input('local', array('label' => false, 'div' => false, 'class' => 'input-xlarge')); ?>
+                    <span class="add-on">@<?= $forwarding['Domain']['domain'] ?></span>
             </div>
         </div>
     </div>

@@ -4,7 +4,6 @@
 
 <?php
     echo $this->Form->create('Domain', array(
-	'action' => 'add',
 	'inputDefaults' => array(
 	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))

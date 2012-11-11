@@ -38,6 +38,11 @@ class AppController extends Controller {
         
         // set admin if loged in
         if($this->Auth->user())
+        {
             $this->set('admin', $this->Auth->user());
+            
+            $this->loadModel('Domain');
+            $this->set('domain_list', $this->Domain->find('all', array('recursive' => 0)));
+        }
     }
 }
