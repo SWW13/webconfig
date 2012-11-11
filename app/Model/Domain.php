@@ -1,65 +1,16 @@
 <?php
 App::uses('AppModel', 'Model');
-/**
- * Domain Model
- *
- * @property Forwarding $Forwarding
- * @property User $User
- */
+
 class Domain extends AppModel {
-
-/**
- * Validation rules
- *
- * @var array
- */
-	public $validate = array(
-		'domain' => array(
-			'notempty' => array(
-				'rule' => array('notempty'),
-				//'message' => 'Your custom message here',
-				//'allowEmpty' => false,
-				//'required' => false,
-				//'last' => false, // Stop validation after this rule
-				//'on' => 'create', // Limit validation to 'create' or 'update' operations
-			),
-		),
-	);
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
-
-/**
- * hasMany associations
- *
- * @var array
- */
-	public $hasMany = array(
-		'Forwarding' => array(
-			'className' => 'Forwarding',
-			'foreignKey' => 'domain_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		),
-		'User' => array(
-			'className' => 'User',
-			'foreignKey' => 'domain_id',
-			'dependent' => false,
-			'conditions' => '',
-			'fields' => '',
-			'order' => '',
-			'limit' => '',
-			'offset' => '',
-			'exclusive' => '',
-			'finderQuery' => '',
-			'counterQuery' => ''
-		)
-	);
+    
+    public $validate = array(
+        'domain' => array(
+            'rule' => '/^[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}$/',
+            'message' => 'invalid domain name'
+        ),
+    );
+    
+    public $hasMany = array('Forwarding', 'User');
+    public $hasAndBelongsToMany = array('Admin');
 
 }

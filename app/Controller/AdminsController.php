@@ -28,7 +28,7 @@ class AdminsController extends AppController
             // check if admin exists
             $admin = $this->Admin->find('first', array(
                 'conditions' => array(
-                    'Admin.username' => $this->request->data['Admin']['username'],
+                    'Admin.email' => $this->request->data['Admin']['email'],
                     'OR' => array(
                         'Admin.locked_until <= "'.date('Y-m-d H:i:s').'"',
                         'Admin.locked_until' => null
@@ -41,13 +41,13 @@ class AdminsController extends AppController
                     $this->Admin->saveField('failed_logins', 0);
                     $this->Admin->saveField('locked_until', null);
 
-                    $this->Session->setFlash('Du hast dich erfolgreich eingeloggt.', 'flash_success');
+                    $this->Session->setFlash('You are now loged in.', 'flash_success');
                     $this->redirect($this->Auth->redirect());
                 }
             }
 
             // not successful login
-            $admin = $this->Admin->findByUsername($this->request->data['Admin']['username']);
+            $admin = $this->Admin->findByEmail($this->request->data['Admin']['email']);
             
             if($admin)
             {
@@ -72,18 +72,18 @@ class AdminsController extends AppController
                 }
                 else
                 {
-                    $this->Auth->flash('Wrong Username or Password.');
+                    $this->Auth->flash('wrong email or password.');
 
-                    $this->Admin->invalidate('email', 'Invalid Username');
-                    $this->Admin->invalidate('password', 'Invalid Password');
+                    $this->Admin->invalidate('email', 'invalid email');
+                    $this->Admin->invalidate('password', 'invalid password');
                 }
             }
             else
             {
-                $this->Auth->flash('Wrong Username or Password.');
+                $this->Auth->flash('wrong email or password.');
 
-                $this->Admin->invalidate('email', 'Invalid Username');
-                $this->Admin->invalidate('password', 'Invalid Password');
+                $this->Admin->invalidate('email', 'invalid email');
+                $this->Admin->invalidate('password', 'invalid password');
             }
 
         }

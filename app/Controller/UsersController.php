@@ -1,103 +1,111 @@
 <?php
+
 App::uses('AppController', 'Controller');
-/**
- * Users Controller
- *
- * @property User $User
- */
-class UsersController extends AppController {
 
-/**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->User->recursive = 0;
-		$this->set('users', $this->paginate());
-	}
+class UsersController extends AppController
+{
+    /*
+    public function add()
+    {
+        if ($this->request->is('post'))
+        {
+            $this->User->create();
+            if ($this->User->save($this->request->data))
+            {
+                $this->Session->setFlash(__('The user has been saved'));
+                $this->redirect(array('action' => 'index'));
+            }
+            else
+            {
+                $this->Session->setFlash(__('The user could not be saved. Please, try again.'));
+            }
+        }
+        $domains = $this->User->Domain->find('list');
+        $this->set(compact('domains'));
+    }
+    */
 
-/**
- * view method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function view($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		$this->set('user', $this->User->read(null, $id));
-	}
+    public function edit($id = null)
+    {
+        $this->User->id = $id;
+        
+        if (!$this->User->exists())
+            throw new NotFoundException('User not found.');
+        
+        $this->loadModel('Domain');
+        $user = $this->User->read(null, $id);
+        $this->Domain->id = $user['Domain']['id'];
+        
+        if (!$this->Domain->exists())
+            throw new NotFoundException('Domain not found.');
+        
+        $domain = $this->Domain->read(null, $user['Domain']['id']);
+        
+        // check for domain admin rights, if not a server admin
+        if ($this->Auth->user('admin') == false)
+        {
+            $is_domain_admin = false;
+            
+            // check all admins
+            foreach($domain['Admin'] as $admin)
+            {
+                if($admin['id'] === $this->Auth->user('id'))
+                {
+                    $is_domain_admin = true;
+                    break;
+                }
+            }
+            
+            if(!$is_domain_admin)
+            {
+                $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+                $this->redirect('/');
+            }
+        }
+        
+        // save data
+        if ($this->request->is('post') || $this->request->is('put'))
+        {
+            // change password
+            if(!empty($this->request->data['User']['password']))
+            {
+                $password = "ENCRYPT('" . mysql_real_escape_string($this->request->data['User']['password']) . "')";
+                
+                if($this->User->query("UPDATE users SET password = $password WHERE id = $id"))
+                {
+                    $this->Session->setFlash('Password changed successfully.', 'flash_success');
+                    $this->redirect(array('controller' => 'domains', 'action' => 'view', $user['Domain']['id']));
+                }
+                else
+                    $this->Session->setFlash('Password could not be saved. Please, try again.', 'flash_fail');
+            }   
+        }
+        else
+            $this->request->data = $user;
+        
+        $this->set('user', $user);
+    }
+    
+    /*
+    public function delete($id = null)
+    {
+        if (!$this->request->is('post'))
+        {
+            throw new MethodNotAllowedException();
+        }
+        $this->User->id = $id;
+        if (!$this->User->exists())
+        {
+            throw new NotFoundException(__('Invalid user'));
+        }
+        if ($this->User->delete())
+        {
+            $this->Session->setFlash(__('User deleted'));
+            $this->redirect(array('action' => 'index'));
+        }
+        $this->Session->setFlash(__('User was not deleted'));
+        $this->redirect(array('action' => 'index'));
+    }
+    */
 
-/**
- * add method
- *
- * @return void
- */
-	public function add() {
-		if ($this->request->is('post')) {
-			$this->User->create();
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		}
-		$domains = $this->User->Domain->find('list');
-		$this->set(compact('domains'));
-	}
-
-/**
- * edit method
- *
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function edit($id = null) {
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->request->is('post') || $this->request->is('put')) {
-			if ($this->User->save($this->request->data)) {
-				$this->Session->setFlash(__('The user has been saved'));
-				$this->redirect(array('action' => 'index'));
-			} else {
-				$this->Session->setFlash(__('The user could not be saved. Please, try again.'));
-			}
-		} else {
-			$this->request->data = $this->User->read(null, $id);
-		}
-		$domains = $this->User->Domain->find('list');
-		$this->set(compact('domains'));
-	}
-
-/**
- * delete method
- *
- * @throws MethodNotAllowedException
- * @throws NotFoundException
- * @param string $id
- * @return void
- */
-	public function delete($id = null) {
-		if (!$this->request->is('post')) {
-			throw new MethodNotAllowedException();
-		}
-		$this->User->id = $id;
-		if (!$this->User->exists()) {
-			throw new NotFoundException(__('Invalid user'));
-		}
-		if ($this->User->delete()) {
-			$this->Session->setFlash(__('User deleted'));
-			$this->redirect(array('action' => 'index'));
-		}
-		$this->Session->setFlash(__('User was not deleted'));
-		$this->redirect(array('action' => 'index'));
-	}
 }

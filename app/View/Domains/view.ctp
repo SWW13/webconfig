@@ -65,4 +65,4 @@
         </tbody>
     </table>
 <?php endif; ?>
-<?= $this->Html->link('Add Forwarding', array('controller' => 'forwardings', 'action' => 'add', $domain['Domain']['id']), array('class' => 'btn')); ?>
+<?= $this->Html->link('Add Forwarding', array('controller' => 'forwardings', 'action' => 'add', $domain['Domain']['id']), array('class' => 'btn btn-primary')); ?>

@@ -10,14 +10,13 @@
 	    ),
         'class' => 'form-horizontal'
 	));
-
 ?>
 
 <fieldset>
     <div class="control-group">
-        <?= $this->Form->label('username', 'Username', array('class' => 'control-label')); ?>
+        <?= $this->Form->label('email', 'Email', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?= $this->Form->input('username', array('label' => false, 'class' => 'input-xlarge')); ?>
+            <?= $this->Form->input('email', array('label' => false, 'class' => 'input-xlarge')); ?>
         </div>
     </div>
     <div class="control-group">
@@ -31,5 +30,4 @@
     </div>
 
     <?= $this->Form->end() ?>
-
 </fieldset>

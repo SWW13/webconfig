@@ -12,11 +12,23 @@
                     <li class="active"><a href="<?= $this->Html->url('/domains') ?>">Domains</a></li>
                 </ul>
             </div>
+            <?php if(isset($admin)): ?>
             <div class="nav-collapse collapse pull-right">
                 <ul class="nav">
-                    <li><a href="<?= $this->Html->url('/admins/logout') ?>"><i class="icon-off icon-white"></i> logout</a></li>
+                    <li id="fat-menu" class="dropdown">
+                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                          <?= $admin['email'] ?>
+                          <b class="caret"></b>
+                      </a>
+                      <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
+                        <li><a href="<?= $this->Html->url('/admins/settings') ?>"><i class="icon-wrench"></i> settings</a></li>
+                        <li class="divider"></li>
+                        <li><a href="<?= $this->Html->url('/admins/logout') ?>"><i class="icon-off"></i> logout</a></li>
+                      </ul>
+                    </li>
                 </ul>
             </div>
+            <?php endif; ?>
         </div>
     </div>
 </div>

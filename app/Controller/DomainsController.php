@@ -3,30 +3,104 @@ App::uses('AppController', 'Controller');
 
 class DomainsController extends AppController {
 
-    public function index() {
-        $this->Domain->recursive = 0;
-        $this->set('domains', $this->Domain->find('all'));
+    public function index()
+    {
+        if ($this->Auth->user('admin') == true)
+        {
+            $domains = $this->Domain->find('all');
+
+            $this->set('domains', $domains);
+            $this->render('index_admin');
+        }
+        else
+        {
+            $this->loadModel('Admin');
+            $admin = $this->Admin->findById($this->Auth->user('id'));
+
+            $this->set('domains', $admin['Domain']);
+            $this->render();
+        }
     }
 
-    public function view($id = null) {
+    public function view($id = null)
+    {
         $this->Domain->id = $id;
         
         if (!$this->Domain->exists())
-            throw new NotFoundException(__('Invalid domain'));
+            throw new NotFoundException('Domain not found.');
         
-        $this->set('domain', $this->Domain->read(null, $id));
-    }
-    
-    public function add() {
-        if ($this->request->is('post')) {
-            $this->Domain->create();
-            if ($this->Domain->save($this->request->data)) {
-                $this->Session->setFlash(__('The domain has been saved'));
-                $this->redirect(array('action' => 'index'));
-            } else {
-                $this->Session->setFlash(__('The domain could not be saved. Please, try again.'));
+        $domain = $this->Domain->read(null, $id);
+        
+        // check for domain admin rights, if not a server admin
+        if ($this->Auth->user('admin') == false)
+        {
+            $is_domain_admin = false;
+            
+            // check all admins
+            foreach($domain['Admin'] as $admin)
+            {
+                if($admin['id'] === $this->Auth->user('id'))
+                {
+                    $is_domain_admin = true;
+                    break;
+                }
+            }
+            
+            if(!$is_domain_admin)
+            {
+                $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+                $this->redirect('/');
             }
         }
+        
+        $this->set('domain', $domain);
+        $this->render();
+    }
+
+    public function add()
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+
+        if ($this->request->is('post'))
+        {
+            $this->Domain->create();
+            
+            if ($this->Domain->save($this->request->data))
+            {
+                $this->Session->setFlash('domain has been created.', 'flash_success');
+                $this->redirect(array('action' => 'index'));
+            }
+            else
+                $this->Session->setFlash('The domain could not be saved. Please, try again.', 'flash_fail');
+        }
+    }
+    
+    public function edit($id)
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+
+        /*if ($this->request->is('post'))
+        {
+            $this->Domain->create();
+            
+            if ($this->Domain->save($this->request->data))
+            {
+                $this->Session->setFlash('domain has been created.', 'flash_success');
+                $this->redirect(array('action' => 'index'));
+            }
+            else
+                $this->Session->setFlash('The domain could not be saved. Please, try again.', 'flash_fail');
+        }
+        else
+            $this->set('domain', $this->Domain->findById($id));*/
+        
+        $this->set('domain', $this->Domain->findById($id));
     }
 
 }

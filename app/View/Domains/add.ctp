@@ -1,21 +1,28 @@
-<div class="domains form">
-<?php echo $this->Form->create('Domain'); ?>
-	<fieldset>
-		<legend><?php echo __('Add Domain'); ?></legend>
-	<?php
-		echo $this->Form->input('domain');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="page-header">
+    <h1>Add Domain</h1>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Html->link(__('List Domains'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Forwardings'), array('controller' => 'forwardings', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Forwarding'), array('controller' => 'forwardings', 'action' => 'add')); ?> </li>
-		<li><?php echo $this->Html->link(__('List Users'), array('controller' => 'users', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New User'), array('controller' => 'users', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php
+    echo $this->Form->create('Domain', array(
+	'action' => 'add',
+	'inputDefaults' => array(
+	    'div' => 'control-group',
+	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
+	    ),
+        'class' => 'form-horizontal'
+	));
+?>
+
+<fieldset>
+    <div class="control-group">
+        <?= $this->Form->label('domain', 'Domain', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <?= $this->Form->input('domain', array('label' => false, 'class' => 'input-xlarge')); ?>
+        </div>
+    </div>
+    <div class="form-actions">
+        <?= $this->Form->submit('Add', array('class' => 'btn btn-primary', 'div' => false)) ?>
+    </div>
+
+    <?= $this->Form->end() ?>
+</fieldset>

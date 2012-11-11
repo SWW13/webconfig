@@ -1,24 +1,48 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-	<fieldset>
-		<legend><?php echo __('Edit User'); ?></legend>
-	<?php
-		echo $this->Form->input('id');
-		echo $this->Form->input('domain_id');
-		echo $this->Form->input('local');
-		echo $this->Form->input('email');
-		echo $this->Form->input('password');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="page-header">
+    <h1>Edit User</h1>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Form->postLink(__('Delete'), array('action' => 'delete', $this->Form->value('User.id')), null, __('Are you sure you want to delete # %s?', $this->Form->value('User.id'))); ?></li>
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Domains'), array('controller' => 'domains', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Domain'), array('controller' => 'domains', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php
+    echo $this->Form->create('User', array(
+	'action' => 'edit',
+	'inputDefaults' => array(
+	    'div' => 'control-group',
+	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
+	    ),
+        'class' => 'form-horizontal'
+	));
+?>
+
+<fieldset>
+    <div class="control-group">
+        <label for="DomainName" class="control-label">Domain</label>
+        <div class="controls">
+            <input id="DomainName" class="input-xlarge" value="<?= $user['Domain']['domain']; ?>" maxlength="255" type="text" disabled/>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('local', 'EMail', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <div class="input-append">
+                <div class="control-group required">
+                    <input id="UserLocal" name="data[User][local]" class="input-xlarge" value="<?= $user['User']['local'] ?>" maxlength="64" type="text" disabled>
+                    <span class="add-on">@<?= $user['Domain']['domain'] ?></span>            
+            </div>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('password', 'Password', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <?= $this->Form->input('password', array('label' => false, 'class' => 'input-xlarge', 'value' => '')); ?>
+        </div>
+    </div>
+    
+    
+    <div class="form-actions">
+        <?= $this->Form->submit('Edit', array('class' => 'btn btn-primary', 'div' => false)) ?>
+    </div>
+
+    <?= $this->Form->end() ?>
+</fieldset>

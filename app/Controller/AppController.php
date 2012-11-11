@@ -23,16 +23,21 @@ class AppController extends Controller {
             ),
             'authenticate' => array(
                 'Form' => array(
-                    'userModel' => 'Admin'
-                )
+                    'userModel' => 'Admin',
+                    'fields' => array('username' => 'email')
+               )
             )
         ));
     public $helpers = array('Html', 'Js', 'Form', 'Session');
     
     function beforeFilter()
     {
-        //require ssl
+        // require ssl
         if(Configure::read('debug') == 0)
             $this->Security->requireSecure('*');
+        
+        // set admin if loged in
+        if($this->Auth->user())
+            $this->set('admin', $this->Auth->user());
     }
 }
