@@ -8,20 +8,20 @@
             </a>
             <a class="brand" href="<?= $this->Html->url('/') ?>">webconfig</a>
             
-            <?php if(isset($admin)): ?>
+            <?php if(isset($auth_admin)): ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li id="fat-menu" class="dropdown <?= $this->here == $this->Html->url('/domains') ? 'active' : ''; ?>">
-                        <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                    <li class="dropdown <?= $this->here == $this->Html->url(array('controller' => 'domains')) ? 'active' : ''; ?>">
+                        <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                             Domains
                             <b class="caret"></b>
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
-                            <li><a href="<?= $this->Html->url('/domains') ?>"><i class="icon-list-alt"></i> overview</a></li>
+                            <li><a href="<?= $this->Html->url(array('controller' => 'domains', 'action' => 'index')) ?>"><i class="icon-list-alt"></i> overview</a></li>
                             
-                            <?php if(count($domains) > 0): ?>
+                            <?php if(count($domain_list) > 0): ?>
                             <li class="divider"></li>
-                            <?php foreach($domains as $domain): ?>
+                            <?php foreach($domain_list as $domain): ?>
                                 <?php $domain = isset($domain['Domain']) ? $domain['Domain'] : $domain; ?>
                                 <li>
                                     <a href="<?= $this->Html->url(array('controller' => 'domains', 'action' => 'view', $domain['id'])) ?>">
@@ -35,11 +35,23 @@
                 </ul>
             </div>
             
+            <?php if($auth_admin['admin'] == true): ?>
+            <div class="nav-collapse collapse">
+                <ul class="nav">
+                    <li class="<?= $this->here == $this->Html->url(array('controller' => 'admins')) ? 'active' : ''; ?>">
+                        <a href="<?= $this->Html->url(array('controller' => 'admins', 'action' => 'index')) ?>">
+                            Admins
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <?php endif; ?>
+            
             <div class="nav-collapse collapse pull-right">
                 <ul class="nav">
-                    <li id="fat-menu" class="dropdown">
-                      <a href="#" id="drop3" role="button" class="dropdown-toggle" data-toggle="dropdown">
-                          <?= $admin['email'] ?>
+                    <li class="dropdown">
+                      <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+                          <?= $auth_admin['email'] ?>
                           <b class="caret"></b>
                       </a>
                       <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">

@@ -154,14 +154,10 @@ class ForwardingsController extends AppController
         }
         
         if ($this->Forwarding->delete())
-        {
             $this->Session->setFlash('The forwarding has been deleted successfully.', 'flash_success');
-            $this->redirect(array('controller' => 'domains', 'action' => 'view', $forwarding['Domain']['id']));
-        }
         else
-        {
             $this->Session->setFlash('The forwarding could not be deleted. Please, try again.', 'flash_fail');
-            $this->redirect(array('controller' => 'domains', 'action' => 'view', $forwarding['Domain']['id']));
-        }
+        
+        $this->redirect(array('controller' => 'domains', 'action' => 'view', $forwarding['Domain']['id']));
     }
 }

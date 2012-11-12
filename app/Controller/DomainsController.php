@@ -85,7 +85,7 @@ class DomainsController extends AppController {
             $this->redirect('/');
         }
 
-        /*if ($this->request->is('post'))
+        /*if ($this->request->is('post') || $this->request->is('put'))
         {
             $this->Domain->create();
             

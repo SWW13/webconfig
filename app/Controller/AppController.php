@@ -4,10 +4,10 @@ App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
     public $components = array('Session',
-        'Security' => array(
+        /*'Security' => array(
             'csrfExpires' => '+4 hours',
             'csrfUseOnce' => false
-        ),
+        ),*/
         'Auth' => array(
             'loginAction' => array(
                 'controller' => 'admins',
@@ -39,7 +39,7 @@ class AppController extends Controller {
         // set admin if loged in
         if($this->Auth->user())
         {
-            $this->set('admin', $this->Auth->user());
+            $this->set('auth_admin', $this->Auth->user());
             
             $this->loadModel('Domain');
             $this->set('domain_list', $this->Domain->find('all', array('recursive' => 0)));

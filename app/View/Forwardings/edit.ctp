@@ -10,6 +10,8 @@
 	    ),
         'class' => 'form-horizontal'
 	));
+    
+    echo $this->Form->hidden('id');
 ?>
 
 <fieldset>

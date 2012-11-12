@@ -88,7 +88,6 @@ class AdminsController extends AppController
 
         }
     }
-
     function logout()
     {
         if ($this->Auth->loggedIn())
@@ -101,6 +100,96 @@ class AdminsController extends AppController
             $this->Session->setFlash('You are allready loged out.', 'flash_notice');
             $this->redirect('/');
         }
+    }
+    
+    public function index()
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+        
+        $admins = $this->Admin->find('all');
+        $this->set('admins', $admins);
+    }
+    public function add()
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+
+        if ($this->request->is('post'))
+        {
+            $this->Admin->create();
+            
+            if ($this->Admin->save($this->request->data))
+            {
+                $this->Session->setFlash('domain has been created.', 'flash_success');
+                $this->redirect(array('action' => 'edit', $this->Admin->getLastInsertID()));
+            }
+            else
+                $this->Session->setFlash('The domain could not be saved. Please, try again.', 'flash_fail');
+        }
+    }
+    public function edit($id)
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+        
+        if ($this->request->is('post') || $this->request->is('put'))
+        {            
+            // update password only if chagned
+            if(!empty($this->request->data['Admin']['password']))
+                $this->request->data['Admin']['password'] = Security::hash($this->request->data['Admin']['password'], null, true);
+            else
+                unset($this->request->data['Admin']['password']);
+            
+            $this->loadModel('Domain');
+            $domain = $this->Domain->find('first');
+            $this->request->data['Domain'][0] = $domain['Domain'];
+            pr($this->request->data);
+            //exit();
+            
+            if ($this->Admin->saveAssociated($this->request->data))
+                $this->Session->setFlash('The settings has been saved successfully.', 'flash_success');
+            else
+                $this->Session->setFlash('The settings could not be saved. Please, try again.', 'flash_fail');
+        }
+        else
+            $this->request->data = $this->Admin->findById($id);
+        
+        $admin = $this->Admin->findById($id);
+        $admin_domains = array();
+        
+        foreach($admin['Domain'] as $domain)
+            $admin_domains[] = $domain['domain'];
+        
+        $this->loadModel('Domain');
+        $this->set('admin', $admin);
+        $this->set('admin_domains', $admin_domains);
+        $this->set('domains', $this->Domain->find('all'));
+    }
+    public function delete($id = null)
+    {
+        if ($this->Auth->user('admin') != true) {
+            $this->Session->setFlash('sorry dude, this is nothing for you...', 'flash_fail');
+            $this->redirect('/');
+        }
+        
+        $this->Admin->id = $id;
+        
+        if (!$this->Admin->exists())
+            throw new NotFoundException('Admin not found.');
+        
+        if ($this->Admin->delete())
+            $this->Session->setFlash('The admin has been deleted successfully.', 'flash_success');
+        else
+            $this->Session->setFlash('The admin could not be deleted. Please, try again.', 'flash_fail');
+        
+        $this->redirect(array('controller' => 'admins', 'action' => 'index'));
     }
     
     function settings()
@@ -125,7 +214,6 @@ class AdminsController extends AppController
         else
             $this->request->data = $admin;
     }
-    
     function getPW($cleartext_pw)
     {
         exit(Security::hash($cleartext_pw, null, true));
