@@ -7,6 +7,8 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="<?= $this->Html->url('/') ?>">webconfig</a>
+            
+            <?php if(isset($admin)): ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
                     <li id="fat-menu" class="dropdown <?= $this->here == $this->Html->url('/domains') ? 'active' : ''; ?>">
@@ -16,19 +18,23 @@
                         </a>
                         <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
                             <li><a href="<?= $this->Html->url('/domains') ?>"><i class="icon-list-alt"></i> overview</a></li>
+                            
+                            <?php if(count($domains) > 0): ?>
                             <li class="divider"></li>
-                            <? foreach($domains as $domain): ?>
+                            <?php foreach($domains as $domain): ?>
+                                <?php $domain = isset($domain['Domain']) ? $domain['Domain'] : $domain; ?>
                                 <li>
-                                    <a href="<?= $this->Html->url(array('controller' => 'domains', 'action' => 'view', $domain['Domain']['id'])) ?>">
-                                        <?= $domain['Domain']['domain'] ?>
+                                    <a href="<?= $this->Html->url(array('controller' => 'domains', 'action' => 'view', $domain['id'])) ?>">
+                                        <?= $domain['domain'] ?>
                                     </a>
                                 </li>
-                            <? endforeach; ?>
+                            <?php endforeach; ?>
+                            <?php endif; ?>
                         </ul>
                     </li>
                 </ul>
             </div>
-            <?php if(isset($admin)): ?>
+            
             <div class="nav-collapse collapse pull-right">
                 <ul class="nav">
                     <li id="fat-menu" class="dropdown">
