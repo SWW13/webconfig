@@ -4,10 +4,10 @@ App::uses('Controller', 'Controller');
 
 class AppController extends Controller {
     public $components = array('Session',
-        /*'Security' => array(
+        'Security' => array(
             'csrfExpires' => '+4 hours',
             'csrfUseOnce' => false
-        ),*/
+        ),
         'Auth' => array(
             'loginAction' => array(
                 'controller' => 'admins',
