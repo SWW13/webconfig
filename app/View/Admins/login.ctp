@@ -5,7 +5,6 @@
     echo $this->Form->create('Admin', array(
 	'action' => 'login',
 	'inputDefaults' => array(
-	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
         'class' => 'form-horizontal'

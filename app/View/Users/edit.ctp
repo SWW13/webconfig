@@ -6,7 +6,6 @@
     echo $this->Form->create('User', array(
 	'action' => 'edit',
 	'inputDefaults' => array(
-	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
         'class' => 'form-horizontal'
@@ -24,11 +23,17 @@
     <div class="control-group">
         <?= $this->Form->label('local', 'EMail', array('class' => 'control-label')); ?>
         <div class="controls">
-            <div class="input-append">
-                <div class="control-group required">
-                    <input id="UserLocal" name="data[User][local]" class="input-xlarge" value="<?= $user['User']['local'] ?>" maxlength="64" type="text" disabled>
-                    <span class="add-on">@<?= $user['Domain']['domain'] ?></span>            
+            <div class="input-append required">
+                <input id="UserLocal" name="data[User][local]" class="input-xlarge" value="<?= $user['User']['local'] ?>" maxlength="64" type="text" disabled>
+                <span class="add-on">@<?= $user['Domain']['domain'] ?></span>
             </div>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('name', 'Name', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <?= $this->Form->input('name', array('label' => false, 'class' => 'input-xlarge', 'value' => '')); ?>
         </div>
     </div>
     

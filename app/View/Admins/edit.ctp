@@ -5,7 +5,6 @@
 <?php
     echo $this->Form->create('Admin', array(
 	'inputDefaults' => array(
-	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
         'class' => 'form-horizontal'
@@ -37,6 +36,7 @@
                 <?= $domain['Domain']['domain'] ?>
             </label>
         <?php endforeach; ?>
+        </div>
     </div>
     
     <div class="form-actions">

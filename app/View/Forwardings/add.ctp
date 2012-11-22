@@ -5,7 +5,6 @@
 <?php
     echo $this->Form->create('Forwarding', array(
 	'inputDefaults' => array(
-	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
         'class' => 'form-horizontal'
@@ -23,10 +22,9 @@
     <div class="control-group">
         <?= $this->Form->label('local', 'Source', array('class' => 'control-label')); ?>
         <div class="controls">
-            <div class="input-append">
-                <div class="control-group required">
-                    <?= $this->Form->input('local', array('label' => false, 'div' => false, 'class' => 'input-xlarge')); ?>
-                    <span class="add-on">@<?= $domain['Domain']['domain'] ?></span>            
+            <div class="input-append required">
+                <?= $this->Form->input('local', array('label' => false, 'div' => false, 'class' => 'input-xlarge')); ?>
+                <span class="add-on">@<?= $domain['Domain']['domain'] ?></span>
             </div>
         </div>
     </div>

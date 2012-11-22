@@ -69,9 +69,9 @@ class UsersController extends AppController
             // change password
             if(!empty($this->request->data['User']['password']))
             {
-                $password = "ENCRYPT('" . mysql_real_escape_string($this->request->data['User']['password']) . "')";
+                $password = md5($this->request->data['User']['password']);
                 
-                if($this->User->query("UPDATE users SET password = $password WHERE id = $id"))
+                if($this->User->saveField('password', $password))
                 {
                     $this->Session->setFlash('Password changed successfully.', 'flash_success');
                     $this->redirect(array('controller' => 'domains', 'action' => 'view', $user['Domain']['id']));

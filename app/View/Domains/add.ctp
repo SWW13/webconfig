@@ -5,7 +5,6 @@
 <?php
     echo $this->Form->create('Domain', array(
 	'inputDefaults' => array(
-	    'div' => 'control-group',
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
         'class' => 'form-horizontal'
