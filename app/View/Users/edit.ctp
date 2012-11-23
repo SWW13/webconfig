@@ -33,14 +33,14 @@
     <div class="control-group">
         <?= $this->Form->label('name', 'Name', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?= $this->Form->input('name', array('label' => false, 'class' => 'input-xlarge', 'value' => '')); ?>
+            <?= $this->Form->input('name', array('label' => false, 'class' => 'input-xlarge')); ?>
         </div>
     </div>
     
     <div class="control-group">
         <?= $this->Form->label('password', 'Password', array('class' => 'control-label')); ?>
         <div class="controls">
-            <?= $this->Form->input('password', array('label' => false, 'class' => 'input-xlarge', 'value' => '')); ?>
+            <?= $this->Form->input('password', array('label' => false, 'class' => 'input-xlarge', 'value' => '', 'placeholder' => 'enter new password or leave blank')); ?>
         </div>
     </div>
     
