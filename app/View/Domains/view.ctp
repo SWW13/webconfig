@@ -38,7 +38,7 @@
 <?php endif; ?>
 
 <h2>Forwardings</h2>
-<?php if (!empty($domain['User'])): ?>
+<?php if (!empty($domain['Forwarding'])): ?>
     <table class="table table-bordered table-hover">
         <thead>
             <tr>
