@@ -10,6 +10,7 @@
         <thead>
             <tr>
                 <th>Email</th>
+                <th>Name</th>
                 <th>Created</th>
                 <th>Modified</th>
                 <th>Actions</th>
@@ -19,6 +20,7 @@
         <?php foreach ($domain['User'] as $user): ?>
             <tr>
                     <td><?= $user['email']; ?></td>
+                    <td><?= $user['name']; ?></td>
                     <td><?= $user['created']; ?></td>
                     <td><?= $user['modified']; ?></td>
                     <td>

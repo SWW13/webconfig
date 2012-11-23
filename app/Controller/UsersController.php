@@ -68,17 +68,17 @@ class UsersController extends AppController
         {
             // change password
             if(!empty($this->request->data['User']['password']))
-            {
-                $password = crypt($this->request->data['User']['password']);
+                $this->request->data['User']['password'] = crypt($this->request->data['User']['password']);
+            else
+                unset($this->request->data['User']['password']);
                 
-                if($this->User->saveField('password', $password))
-                {
-                    $this->Session->setFlash('Password changed successfully.', 'flash_success');
-                    $this->redirect(array('controller' => 'domains', 'action' => 'view', $user['Domain']['id']));
-                }
-                else
-                    $this->Session->setFlash('Password could not be saved. Please, try again.', 'flash_fail');
-            }   
+            if ($this->User->save($this->request->data))
+            {
+                $this->Session->setFlash('User changed successfully.', 'flash_success');
+                $this->redirect(array('controller' => 'domains', 'action' => 'view', $user['Domain']['id']));
+            }
+            else
+                $this->Session->setFlash('User could not be saved. Please, try again.', 'flash_fail');  
         }
         else
             $this->request->data = $user;
