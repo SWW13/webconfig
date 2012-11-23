@@ -69,7 +69,7 @@ class UsersController extends AppController
             // change password
             if(!empty($this->request->data['User']['password']))
             {
-                $password = md5($this->request->data['User']['password']);
+                $password = crypt($this->request->data['User']['password']);
                 
                 if($this->User->saveField('password', $password))
                 {
