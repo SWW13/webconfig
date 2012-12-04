@@ -12,5 +12,5 @@ webconfig extends the database with some primary keys and an admin table for the
 You can use the cake shell to update the database to the webconfig schema using 'cake schema create' and 'cake schema update'.
 
 After that you have to copy the config files in 'app/config':
-core.php.default to core.php and set the path to your virtual vmail home folder 'vmail_dir'.
-database.php.default to database.php and setup the database connection.
+* core.php.default to core.php and set the path to your virtual vmail home folder 'vmail_dir'.
+* database.php.default to database.php and setup the database connection.
