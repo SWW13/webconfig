@@ -26,9 +26,7 @@
                     <td>
                         <div class="btn-group">
                             <?= $this->Html->link('Edit', array('controller' => 'users', 'action' => 'edit', $user['id']), array('class' => 'btn')); ?>
-                            <?php /*
                             <?= $this->Form->postLink('Delete', array('controller' => 'users', 'action' => 'delete', $user['id']), array('class' => 'btn'), 'Are you sure you want to delete \'' . $user['email'] . '\' ?'); ?>
-                            */ ?>
                         </div>
                     </td>
             </tr>
@@ -36,6 +34,8 @@
         </tbody>
     </table>
 <?php endif; ?>
+<?= $this->Html->link('Add User', array('controller' => 'users', 'action' => 'add', $domain['Domain']['id']), array('class' => 'btn btn-primary')); ?>
+<br><br>
 
 <h2>Forwardings</h2>
 <?php if (!empty($domain['Forwarding'])): ?>

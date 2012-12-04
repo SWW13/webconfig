@@ -1,22 +1,52 @@
-<div class="users form">
-<?php echo $this->Form->create('User'); ?>
-	<fieldset>
-		<legend><?php echo __('Add User'); ?></legend>
-	<?php
-		echo $this->Form->input('domain_id');
-		echo $this->Form->input('local');
-		echo $this->Form->input('email');
-		echo $this->Form->input('password');
-	?>
-	</fieldset>
-<?php echo $this->Form->end(__('Submit')); ?>
+<div class="page-header">
+    <h1>Add User</h1>
 </div>
-<div class="actions">
-	<h3><?php echo __('Actions'); ?></h3>
-	<ul>
 
-		<li><?php echo $this->Html->link(__('List Users'), array('action' => 'index')); ?></li>
-		<li><?php echo $this->Html->link(__('List Domains'), array('controller' => 'domains', 'action' => 'index')); ?> </li>
-		<li><?php echo $this->Html->link(__('New Domain'), array('controller' => 'domains', 'action' => 'add')); ?> </li>
-	</ul>
-</div>
+<?php
+    echo $this->Form->create('User', array(
+	'inputDefaults' => array(
+	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
+	    ),
+        'class' => 'form-horizontal'
+	));
+?>
+
+<fieldset>
+    <div class="control-group">
+        <label for="DomainName" class="control-label">Domain</label>
+        <div class="controls">
+            <input id="DomainName" class="input-xlarge" value="<?= $domain['Domain']['domain']; ?>" maxlength="255" type="text" disabled/>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('local', 'EMail', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <div class="input-append required">
+                <?= $this->Form->input('local', array('label' => false, 'div' => false, 'class' => 'input-xlarge')); ?>
+                <span class="add-on">@<?= $domain['Domain']['domain'] ?></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('name', 'Name', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <?= $this->Form->input('name', array('label' => false, 'class' => 'input-xlarge')); ?>
+        </div>
+    </div>
+    
+    <div class="control-group">
+        <?= $this->Form->label('password', 'Password', array('class' => 'control-label')); ?>
+        <div class="controls">
+            <?= $this->Form->input('password', array('label' => false, 'class' => 'input-xlarge', 'value' => '')); ?>
+        </div>
+    </div>
+    
+    
+    <div class="form-actions">
+        <?= $this->Form->submit('Add', array('class' => 'btn btn-primary', 'div' => false)) ?>
+    </div>
+
+    <?= $this->Form->end() ?>
+</fieldset>

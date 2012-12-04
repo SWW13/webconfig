@@ -66,7 +66,16 @@ class DomainsController extends AppController {
 
         if ($this->request->is('post'))
         {
-            $this->Domain->create();
+            $vmail_dir = Configure::read('webconfig.vmail_dir');
+            $domain_name = $this->request->data['Domain']['domain'];
+
+            if(empty($vmail_dir) || substr_count($vmail_dir, '/') < 2)
+                throw new InternalErrorException("Missing vmail_dir config or contains less then two '/'.");
+
+            exec("mkdir $vmail_dir/".escapeshellcmd($domain_name), $output, $result);
+
+            if($result !== 0)
+                    throw new InternalErrorException("Create doamin dir failed with error code $result.");
             
             if ($this->Domain->save($this->request->data))
             {

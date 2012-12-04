@@ -4,7 +4,6 @@
 
 <?php
     echo $this->Form->create('User', array(
-	'action' => 'edit',
 	'inputDefaults' => array(
 	    'error' => array('attributes' => array('wrap' => 'span', 'class' => 'help-inline'))
 	    ),
