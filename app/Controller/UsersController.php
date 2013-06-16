@@ -56,11 +56,11 @@ class UsersController extends AppController
             if($result !== 0)
                 throw new InternalErrorException("maildirmake failed with error code $result on maildir $domain_name/$local.");
 
-            $maildir_folders = array('Inbox', 'Starred', 'Important', 'Draft', 'Sent', 'Spam', 'Trash', 'Archive');
+            $maildir_folders = array('Draft', 'Sent', 'Spam', 'Trash', 'Archive');
             foreach($maildir_folders as $folder)
             {
                 exec("maildirmake -f $folder $maildir_path", $output, $result);
-                
+
                 if($result !== 0)
                     throw new InternalErrorException("maildirmake failed with error code $result on folder $folder in maildir $domain_name/$local.");
             }
