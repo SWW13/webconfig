@@ -42,17 +42,28 @@ class UsersController extends AppController
             $vmail_dir = Configure::read('webconfig.vmail_dir');
             $domain_name = $domain['Domain']['domain'];
             $local = $this->request->data['User']['local'];
+            $maildir_path = $vmail_dir. '/' . escapeshellcmd($domain_name) . '/' . escapeshellcmd($local);
             $this->request->data['User']['domain_id'] = $domain_id;
             $this->request->data['User']['email'] = $local . '@' . $domain_name;
             $this->request->data['User']['password'] = crypt($this->request->data['User']['password']);
             
             if(empty($vmail_dir) || substr_count($vmail_dir, '/') < 2)
                 throw new InternalErrorException("Missing vmail_dir config or contains less then two '/'.");
-            
-            exec("maildirmake $vmail_dir/".escapeshellcmd($domain_name).'/'.escapeshellcmd($local), $output, $result);
+
+
+            exec("maildirmake $maildir_path", $output, $result);
             
             if($result !== 0)
-                throw new InternalErrorException("maildirmake failed with error code $result.");
+                throw new InternalErrorException("maildirmake failed with error code $result on maildir $domain_name/$local.");
+
+            $maildir_folders = array('Inbox', 'Starred', 'Important', 'Draft', 'Sent', 'Spam', 'Trash', 'Archive');
+            foreach($maildir_folders as $folder)
+            {
+                exec("maildirmake -f $maildir_path/$folder", $output, $result);
+
+                if($result !== 0)
+                    throw new InternalErrorException("maildirmake failed with error code $result on folder $folder.");
+            }
             
             if ($this->User->save($this->request->data))
             {
