@@ -11,7 +11,7 @@
             <?php if(isset($auth_admin)): ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="dropdown <?= $this->here == $this->Html->url(array('controller' => 'domains')) ? 'active' : ''; ?>">
+                    <li class="dropdown <?= $this->request->here == $this->Html->url(array('controller' => 'domains')) ? 'active' : ''; ?>">
                         <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
                             Domains
                             <b class="caret"></b>
@@ -38,7 +38,7 @@
             <?php if($auth_admin['admin'] == true): ?>
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li class="<?= $this->here == $this->Html->url(array('controller' => 'admins')) ? 'active' : ''; ?>">
+                    <li class="<?= $this->request->here == $this->Html->url(array('controller' => 'admins')) ? 'active' : ''; ?>">
                         <a href="<?= $this->Html->url(array('controller' => 'admins', 'action' => 'index')) ?>">
                             Admins
                         </a>
